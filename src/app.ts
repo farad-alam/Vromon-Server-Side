@@ -1,11 +1,11 @@
 import express, { Request, Response } from "express";
-import UserRouter from "./app/modules/user/user.controller";
+import { router } from "./app/routes";
 
 const app = express();
 app.use(express.json())
 
 
-app.use("/api/v1/user", UserRouter)
+app.use("/api/v1", router)
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({

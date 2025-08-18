@@ -25,5 +25,5 @@ router.post("/register", async (req: Request, res: Response) => {
 });
 
 
-const UserRouter = router
-export default UserRouter
+const UserRoutes = router
+export default UserRoutes
