@@ -11,6 +11,12 @@ const createUser = (payload : Partial<IUser>) => {
   return newUser
 };
 
+const getAllUser = () =>{
+  const allUser = User.find({})
+  return allUser
+}
+
 export const UserServices = {
-    createUser
+    createUser,
+    getAllUser
 }

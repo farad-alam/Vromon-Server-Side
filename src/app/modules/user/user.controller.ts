@@ -3,27 +3,48 @@ import { User } from "./user.model";
 import { StatusCodes } from "http-status-codes";
 import { UserServices } from "./user.services";
 import AppError from "../../errorHelper/appError";
-import { success } from "zod";
+import { catchAsync } from "../../utils/catchAsync";
 
-const createUser = async (req: Request, res: Response, next:NextFunction) => {
-  try {
-
-    // throw new AppError(StatusCodes.NOT_FOUND,"a new error")
-    // throw new Error("just error ")
-
+const createUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
     const newUser = await UserServices.createUser(req.body);
 
     res.status(StatusCodes.CREATED).json({
       message: `User created with ${newUser.email} successfully`,
       data: newUser,
     });
-  } catch (error) {
-    next(error)
-  
   }
-};
+);
 
+
+const getAllUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const alluser = await UserServices.getAllUser()
+
+    res.status(StatusCodes.OK).json({
+      message:"Retrive all user",
+      data : alluser
+    })
+  }
+)
+
+// const createUser = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     // throw new AppError(StatusCodes.NOT_FOUND,"a new error")
+//     // throw new Error("just error ")
+
+//     const newUser = await UserServices.createUser(req.body);
+
+//     res.status(StatusCodes.CREATED).json({
+//       message: `User created with ${newUser.email} successfully`,
+//       data: newUser,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
 
 export const UserContrller = {
   createUser,
+  getAllUser
 };
