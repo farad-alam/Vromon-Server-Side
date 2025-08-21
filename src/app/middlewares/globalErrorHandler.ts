@@ -2,6 +2,7 @@ import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 import { success } from "zod";
 import { envVars } from "../config/env";
 import AppError from "../errorHelper/appError";
+import { snedResponse } from "../utils/sendResponse";
 
 export const globalErrorHandler = (
   err: any,
@@ -27,4 +28,11 @@ export const globalErrorHandler = (
       err,
       stack: envVars.NODE_ENV === "development" ? err.stack : null,
     });
+
+    // snedResponse(res,{
+    //   success:false,
+    //   statusCode,
+    //   message : message,
+    //   data:err
+    // })
 };
