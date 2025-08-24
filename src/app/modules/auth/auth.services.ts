@@ -5,10 +5,10 @@ import { User } from "../user/user.model";
 import bcryptjs from "bcryptjs";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { envVars } from "../../config/env";
-
+import { genarateToken } from "../../utils/jwt";
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
-  const { email, password : userPassword } = payload;
+  const { email, password: userPassword } = payload;
 
   const isUserExist = await User.findOne({ email }).lean();
 
@@ -21,26 +21,23 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     isUserExist.password as string
   );
 
-   if (!isPasswordMatch) {
-     throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect Passoerd");
-   }
+  if (!isPasswordMatch) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "Incorrect Passoerd");
+  }
 
-   const jwtPayload = {
-    id : isUserExist._id,
-    email : isUserExist.email,
-    role : isUserExist.role
-   }
+  const jwtPayload = {
+    id: isUserExist._id,
+    email: isUserExist.email,
+    role: isUserExist.role,
+  };
 
-     const accessToken = jwt.sign(jwtPayload, envVars.JWT_ACCESS_TOKEN_SECRET, {
-       expiresIn: envVars.JWT_ACCESS_TOKEN_EXPIRES,
-     } as SignOptions);
+  const accessToken = genarateToken(jwtPayload);
 
-  const {password, ...rest} = isUserExist
+  const { password, ...rest } = isUserExist;
   return {
     accessToken,
   };
 };
-
 
 export const AuthServices = {
   credentialsLogin,
