@@ -3,7 +3,8 @@ import AppError from "../../errorHelper/appError";
 import { IUser } from "../user/user.interface";
 import { User } from "../user/user.model";
 import bcryptjs from "bcryptjs";
-import jwt from "jsonwebtoken";
+import jwt, { SignOptions } from "jsonwebtoken";
+import { envVars } from "../../config/env";
 
 
 const credentialsLogin = async (payload: Partial<IUser>) => {
@@ -30,12 +31,14 @@ const credentialsLogin = async (payload: Partial<IUser>) => {
     role : isUserExist.role
    }
 
-   const accessToekn = jwt.sign(jwtPayload, "secrate",{expiresIn:"1d"})
+     const accessToken = jwt.sign(jwtPayload, envVars.JWT_ACCESS_TOKEN_SECRET, {
+       expiresIn: envVars.JWT_ACCESS_TOKEN_EXPIRES,
+     } as SignOptions);
 
   const {password, ...rest} = isUserExist
   return {
-    accessToekn
-  }
+    accessToken,
+  };
 };
 
 
