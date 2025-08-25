@@ -13,7 +13,7 @@ const createUser = catchAsync(
     snedResponse(res, {
       statusCode: StatusCodes.CREATED,
       success: true,
-      message: "All user Retrived successfully",
+      message: "User Created successfully",
       data: newUser,
     });
   }
@@ -22,12 +22,7 @@ const createUser = catchAsync(
 const getAllUser = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const result = await UserServices.getAllUser();
-
-    // res.status(StatusCodes.OK).json({
-    //   message:"Retrive all user",
-    //   data : alluser
-    // })
-
+    
     snedResponse(res, {
       statusCode: StatusCodes.OK,
       success: true,

@@ -2,6 +2,7 @@ import { Server } from "http";
 import mongoose from "mongoose";
 import app from "./app";
 import { envVars } from "./app/config/env";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 let server: Server;
 
@@ -17,7 +18,10 @@ async function StartServer() {
   }
 }
 
-StartServer();
+(async ()=>{
+  await StartServer();
+  await seedSuperAdmin();
+})()
 
 // Unhandled rejection error
 // if a promise nt handle with try catch
